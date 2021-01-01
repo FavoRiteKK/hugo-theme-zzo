@@ -1,7 +1,8 @@
 {{ $main_options := (dict "targetPath" "css/main.css" "outputStyle" "compressed") }}
 {{ $main_template := resources.Get "sass/main.scss" }}
 {{ $main_style := $main_template | resources.ExecuteAsTemplate "main_parsed.scss" . | toCSS $main_options | resources.Minify }}
-<link rel="stylesheet" href="{{ $main_style.RelPermalink }}">
+{{ $css_version := $.Param "custom_css_version" }}
+<link rel="stylesheet" href="{{ $main_style.RelPermalink }}?v={{ $css_version }}">
 
 {{ if .Site.Params.custom_css }}
 {{ range .Site.Params.custom_css }}
